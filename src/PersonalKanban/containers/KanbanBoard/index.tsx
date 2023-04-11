@@ -71,7 +71,6 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
     allProjects.forEach((projects: any) => {
       finalProjects.push(...projects._embedded.elements);
     });
-
     // const projects = res?._embedded.elements as IResponseProject[];
 
     for (const item of finalProjects) {
