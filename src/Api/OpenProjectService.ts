@@ -38,9 +38,18 @@ export class OpenProjectService {
   }
 
   static async getAllTaskByProject(project_id: number) {
-    const { data } = await api.get(`/projects/${project_id}/work_packages`);
+    //фильтры для СЛЕСАРИ[7]
+    // В плане" - Status ID 2
+    // "В работе" - Status ID 7
+    // "На проверке" - Status ID 5
+    const filters = [
+      { "type_id": { "operator": "=", "values": ["7"] } },
+      { "status": { "operator": "=", "values": ["2","5","7"] } }
+      ]
+    const { data } = await api.get(`/projects/${project_id}/work_packages?${filters}]`);
     return data;
   }
+  
   static async updateTask(upd_data: IUpdate, id: number | undefined) {
     const { data } = await api.patch(`work_packages/${id}`, upd_data);
     return data;
