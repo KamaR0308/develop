@@ -174,7 +174,7 @@ function filterDuplicates(arr: any[], prop: string, additionalProp?: string) {
 }
 
   console.log(records, "RECORDS")
-  const filteredRecords = filterDuplicates(records, 'item_id');
+  const filteredRecords = filterDuplicates(records, 'item_id', "nameProject");
   const classes = useColumnCardListStyles();
    
   return (
