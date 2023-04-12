@@ -157,16 +157,23 @@ export const ColumnCardList: React.FC<ColumnCardListProps> = (props) => {
 
  
 //удаляем повторяющие значения в доске (быстрое решение проблемы повторяющихся досок )
-  function filterDuplicates(arr: any[], prop: string) {
-    const uniqueRecords = new Map();
-    for (const record of arr) {
-      if (!uniqueRecords.has(record[prop])) {
-        uniqueRecords.set(record[prop], record);
-      }
+function filterDuplicates(arr: any[], prop: string, additionalProp?: string) {
+  const uniqueRecords = new Map();
+  for (const record of arr) {
+    if (!uniqueRecords.has(record[prop])) {
+      uniqueRecords.set(record[prop], record);
+    } else if (additionalProp && uniqueRecords.get(record[prop])[additionalProp] === record[additionalProp]) {
+      // Check if the additional property also matches to prevent duplicates
+      continue;
+    } else {
+      // If the additional property doesn't match, replace the existing record with the new one
+      uniqueRecords.set(record[prop], record);
     }
-    return [...uniqueRecords.values()];
   }
-  
+  return [...uniqueRecords.values()];
+}
+
+  console.log(records, "RECORDS")
   const filteredRecords = filterDuplicates(records, 'item_id');
   const classes = useColumnCardListStyles();
    

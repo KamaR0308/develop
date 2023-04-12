@@ -42,11 +42,9 @@ export class OpenProjectService {
     // В плане" - Status ID 2
     // "В работе" - Status ID 7
     // "На проверке" - Status ID 5
-    const filters = [
-      { "type_id": { "operator": "=", "values": ["7"] } },
-      { "status": { "operator": "=", "values": ["2","5","7"] } }
-      ]
-    const { data } = await api.get(`/projects/${project_id}/work_packages?${filters}]`);
+    const query = [{"type_id":{"operator":"=","values":["8"]}}, { "status": { "operator": "=", "values": ["2", "5", "7"]}}]
+
+    const { data } = await api.get(`/projects/${project_id}/work_packages?filters=${JSON.stringify(query)}`);
     return data;
   }
   
