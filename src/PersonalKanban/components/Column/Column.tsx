@@ -155,28 +155,12 @@ export const ColumnCardList: React.FC<ColumnCardListProps> = (props) => {
 
   const { t } = useTranslation();
 
- 
-//удаляем повторяющие значения в доске (быстрое решение проблемы повторяющихся досок )
-function filterDuplicates(arr: any[], prop: string, additionalProp?: string) {
-  const filteredArr = arr.filter((record, index) => {
-    const existingRecord = arr.find((r, i) => i < index && r[prop] === record[prop]);
-    if (!existingRecord) {
-      return true;
-    }
-    if (additionalProp && existingRecord[additionalProp] === record[additionalProp]) {
-      return false;
-    }
-    return true;
-  });
-  return filteredArr;
-} 
-  const filteredRecords = filterDuplicates(records, 'item_id', "status");
   const classes = useColumnCardListStyles();
    
   return (
     <div ref={innerRef}>
-      {filteredRecords && filteredRecords.length ? (
-        filteredRecords.map((record: Record, index) => (
+      {records && records.length ? (
+        records.map((record: Record, index) => (
           <CardComponent
             key={record.id}
             record={record}
