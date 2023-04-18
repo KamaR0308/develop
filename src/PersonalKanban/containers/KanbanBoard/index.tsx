@@ -57,7 +57,7 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
   const [columns, setColumns] = React.useState<Column[]>(initialState);
 
   if (!initialState) {
-    initialState = getInitialState(contentCardKanban);
+    initialState = getInitialState(contentCardKanban); 
   }
   const { req, loading, setLoading } = useFetch(async () => {
     // Получение задач с OpenProject, которые при попадании в resolve попадут в состояния.
@@ -72,7 +72,6 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
       finalProjects.push(...projects._embedded.elements);
     });
     // const projects = res?._embedded.elements as IResponseProject[];
-
     for (const item of finalProjects) {
       if (!item.active || item._links.status.title === 'Приостановлен')
         continue;
@@ -81,7 +80,7 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
       );
       projectTasks?._embedded.elements.forEach((val: any) => {
         if (val._links.children) return;
-        allTasks.push({ ...val, nameProject: item.identifier });
+        allTasks.push({ ...val, nameProject: item.name });
       });
     }
 
