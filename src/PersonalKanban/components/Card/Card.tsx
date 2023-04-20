@@ -12,7 +12,7 @@ import { RecordContext } from '../../containers/KanbanBoard';
 
 const useStyles = makeStyles(() => ({
   paper: {
-    height: 200,
+    height: 215,
   },
   description: {
     minHeight: '5rem',
@@ -158,7 +158,7 @@ const Card: React.FC<CardProps> = (props) => {
             </Box>
           </Box>
         </Box>
-
+        {console.log(record, "record")}
         <Box display="flex" flexDirection="column" gridRowGap={5}>
           <Box display="flex" flex={1} gridColumnGap={4}>
             {record.estimated_time ? (
@@ -173,7 +173,12 @@ const Card: React.FC<CardProps> = (props) => {
                 </Typography>
               </>
             ) : null}
-          </Box>
+          </Box> 
+          {record.author ? (
+            <Typography component="p" variant="caption" noWrap>
+            Автор: {record.author}
+          </Typography>
+        ) : null}
           {record.start_date || record.end_date ? (
             <Typography component="p" style={{ fontSize: 12 }}>
               Дата{' '}

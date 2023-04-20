@@ -22,6 +22,7 @@ export type Record = {
   start_date?: string;
   end_date?: string;
   changedDate: any;
+  author: string;
 };
 
 export type IEstimatedTime = {

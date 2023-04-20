@@ -56,6 +56,8 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
 
   const [columns, setColumns] = React.useState<Column[]>(initialState);
 
+  console.log(columns, "columns kanban board")
+
   if (!initialState) {
     initialState = getInitialState(contentCardKanban); 
   }

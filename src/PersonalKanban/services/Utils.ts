@@ -63,6 +63,7 @@ export const getUsersFromResponse = (
   data: any
 ): User[] => {
   let tempUsersData: User[] = defaultUsersData;
+ 
   data.forEach(
     (item: {
       _links: {
@@ -81,6 +82,7 @@ export const getUsersFromResponse = (
       nameProject: string;
       dueDate: any;
       updatedAt: string | number | Date;
+      author: {href:string, title: string}
     }) => {
       const userIndex = tempUsersData.findIndex((user) => {
         return user.name === item._links?.assignee?.title;
@@ -90,13 +92,16 @@ export const getUsersFromResponse = (
           item._links.status.title
         ) as RecordStatus;
 
+      const authorName = item._links?.author.title 
+
         tempUsersData[userIndex].records.push({
           item_id: item.id,
           lockVersion: item.lockVersion,
           id: getId(),
           title: String(item.id),
           description: item.subject || '',
-          status: taskStatus,
+          status: taskStatus, 
+          author: authorName,
           nameProject: item.nameProject,
           estimated_time: item.estimatedTime
             ? estimatedTime(item.estimatedTime)

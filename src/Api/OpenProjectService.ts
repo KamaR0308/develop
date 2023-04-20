@@ -43,8 +43,10 @@ export class OpenProjectService {
     // "В работе" - Status ID 7
     // "На проверке" - Status ID 5
     const query = [{"type_id":{"operator":"=","values":["8"]}}, { "status": { "operator": "=", "values": ["2", "5", "7"]}}]
-
-    const { data } = await api.get(`/projects/${project_id}/work_packages?filters=${JSON.stringify(query)}`);
+    
+    //const {data} = data = await api.get(`/projects/${project_id}/work_packages?filters=${JSON.stringify(query)}`);
+    const { data } = await api.get(`/projects/${project_id}/work_packages`);
+     
     return data;
   }
   

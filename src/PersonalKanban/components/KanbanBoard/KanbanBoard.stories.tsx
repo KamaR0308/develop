@@ -12,7 +12,8 @@ const getCards = (count: number): Record[] => {
     title: faker.lorem.word(),
     description: faker.lorem.sentence(),
     status: RecordStatus.Inspection,
-    changedDate: new Date()
+    changedDate: new Date(),
+    author: faker.name.findName()
   }));
 };
 
