@@ -25,6 +25,11 @@ export const defaultUsersData: User[] = [
     name: 'Александр Плаксюк',
     records: [],
   },
+  {
+    id: 4,
+    name: 'Стажёр Цех',
+    records: [],
+  },
 ];
 
 ReactDOM.render(
