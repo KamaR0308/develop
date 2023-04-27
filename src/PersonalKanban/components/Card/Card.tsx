@@ -10,7 +10,6 @@ import { Record } from 'PersonalKanban/types'
 import IconButton from 'PersonalKanban/components/IconButton'
 import { Button, Input, TextField } from '@material-ui/core'
 import { RecordContext } from '../../containers/KanbanBoard'
-import { NONAME } from 'dns'
 
 const useStyles = makeStyles(() => ({
     paper: {
