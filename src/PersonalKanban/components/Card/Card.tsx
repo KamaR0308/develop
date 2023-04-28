@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { Record } from 'PersonalKanban/types'
 import IconButton from 'PersonalKanban/components/IconButton'
-import { Button, Input, TextField } from '@material-ui/core'
+import { Button, TextField } from '@material-ui/core'
 import { RecordContext } from '../../containers/KanbanBoard'
 
 const useStyles = makeStyles(() => ({
@@ -22,6 +22,12 @@ const useStyles = makeStyles(() => ({
         '-webkit-box-orient': 'vertical',
         overflow: 'hidden',
         whiteSpace: 'pre-line',
+    },
+    noBorder: {
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+            {
+                border: 'none',
+            },
     },
 }))
 
@@ -81,7 +87,7 @@ const Card: React.FC<CardProps> = (props) => {
 
     const getRecordValue = (idRecord: string) => {
         const record = justAddedTime?.find((item) => item.idRecord === idRecord)
-        return record ? record.hours : 'Нет данных'
+        return record ? record.hours : '--'
     }
 
     useEffect(() => {
@@ -167,30 +173,22 @@ const Card: React.FC<CardProps> = (props) => {
                                 >
                                     Добавить к {record.hours}
                                 </Button>
-                                <Box
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        maxWidth: '100px',
-                                    }}
-                                >
-                                    <label htmlFor="justAdded">
-                                        Посл. доб.
-                                    </label>
-
-                                    <input
-                                        readOnly
-                                        id="justAdded"
-                                        type="text"
-                                        value={getRecordValue(record.title)}
-                                        style={{
-                                            border: 'none',
-                                            outline: 'none',
-                                            fontSize: '16px',
-                                        }}
-                                    />
-                                </Box>
                             </Box>
+                            <TextField
+                                id="justAdded"
+                                label="Посл. доб"
+                                type="text"
+                                value={getRecordValue(record.title)}
+                                focused
+                                inputProps={{
+                                    readOnly: true,
+                                    disableUnderline: true,
+                                }}
+                                style={{
+                                    width: '30%',
+                                }}
+                                className={classes.noBorder}
+                            />
                         </Box>
                     </Box>
                 </Box>
