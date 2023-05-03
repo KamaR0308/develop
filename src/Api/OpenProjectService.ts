@@ -53,27 +53,12 @@ export class OpenProjectService {
     }
 
     static async getAllTaskByProject(project_id: number) {
-        const { status } = await api.get(
+        const response = await api.get(
             `/projects/${project_id}/work_packages?filters=${JSON.stringify(
                 QUERY
             )}`
         )
-        let data
-        if (status === 200) {
-            const response = await api.get(
-                `/projects/${project_id}/work_packages?filters=${JSON.stringify(
-                    QUERY
-                )}`
-            )
-            data = response.data
-        } else {
-            const response = await api.get(
-                `/projects/${project_id}/work_packages`
-            )
-            data = response.data || []
-        }
-
-        return data
+        return response.data
     }
 
     static async updateTask(upd_data: IUpdate, id: number | undefined) {

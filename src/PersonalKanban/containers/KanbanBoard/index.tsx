@@ -85,17 +85,21 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
             finalProjects.push(...projects._embedded.elements)
         })
         // const projects = res?._embedded.elements as IResponseProject[];
-        for (const item of finalProjects) {
-            if (!item.active || item._links.status.title === 'Приостановлен')
-                continue
-            const projectTasks = await OpenProjectService.getAllTaskByProject(
-                item.id
+        const projectPromises = finalProjects
+            .filter(
+                (item: any) =>
+                    item.active && item._links.status.title !== 'Приостановлен'
             )
+            .map((item: any) => OpenProjectService.getAllTaskByProject(item.id))
+
+        const projectsData = await Promise.all(projectPromises)
+
+        projectsData.forEach((projectTasks: any, i: number) => {
             projectTasks?._embedded.elements.forEach((val: any) => {
                 if (val._links.children) return
-                allTasks.push({ ...val, nameProject: item.name })
+                allTasks.push({ ...val, nameProject: finalProjects[i].name })
             })
-        }
+        })
 
         const users = getUsersFromResponse(defaultUsersData, allTasks)
         setUsers(users)
