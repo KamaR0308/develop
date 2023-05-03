@@ -1,5 +1,16 @@
 import api from './index'
 
+//Поменять данное значение на то, которое у вас относится к нужному типу
+const SLESARI_ID: string = '8' //Тип "СЛЕСАРИ" ID 8
+const PLAN_ID: string = '2' // "В плане" - Status ID 2
+const WORK_ID: string = '7' // "В работе" - Status ID 7
+const CHECK_ID: string = '5' // "На проверке" - Status ID 5
+
+const QUERY: {}[] = [
+    { type_id: { operator: '=', values: [SLESARI_ID] } },
+    { status: { operator: '=', values: [PLAN_ID, WORK_ID, CHECK_ID] } },
+]
+
 interface IUpdate {
     spentTime?: string
     estimatedTime?: string
@@ -8,15 +19,16 @@ interface IUpdate {
 }
 
 export class OpenProjectService {
-    static async getAllTasks() {
-        const { data } = await api.get('/projects/test/work_packages')
-        return data
-    }
+    //Данные функции отключены так как для данной версии требуется делать запросы только к заданному выше в фильтре запроса типу
+    // static async getAllTasks() {
+    //   const { data } = await api.get('/projects/test/work_packages');
+    //   return data;
+    // }
 
-    static async getAllProjects() {
-        const { data } = await api.get('/projects')
-        return data
-    }
+    // static async getAllProjects() {
+    //   const { data } = await api.get('/projects');
+    //   return data;
+    // }
 
     static async getProjects() {
         let allProjects = []
@@ -24,8 +36,10 @@ export class OpenProjectService {
         let pageSize = 100
 
         while (true) {
+            //делаем запрос только для данного типа
+            const query = [{ type: { operator: '=', values: [SLESARI_ID] } }]
             const { data } = await api.get('/projects', {
-                params: { page, pageSize },
+                params: { filters: JSON.stringify(query), page, pageSize },
             })
 
             allProjects.push(data)
@@ -34,22 +48,18 @@ export class OpenProjectService {
             }
             page++
         }
+
         return allProjects
     }
 
     static async getAllTaskByProject(project_id: number) {
-        //фильтры для СЛЕСАРИ[7]
-        // В плане" - Status ID 2
-        // "В работе" - Status ID 7
-        // "На проверке" - Status ID 5
-        const query = [
-            { type_id: { operator: '=', values: ['8'] } },
-            { status: { operator: '=', values: ['2', '5', '7'] } },
-        ]
-
-        //const {data} = data = await api.get(`/projects/${project_id}/work_packages?filters=${JSON.stringify(query)}`);
-        const { data } = await api.get(`/projects/${project_id}/work_packages`)
-
+        let data
+        const response = await api.get(
+            `/projects/${project_id}/work_packages?filters=${JSON.stringify(
+                QUERY
+            )}`
+        )
+        data = response.data
         return data
     }
 

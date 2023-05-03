@@ -71,7 +71,8 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
     if (!initialState) {
         initialState = getInitialState(contentCardKanban)
     }
-    const { req, loading, setLoading } = useFetch(async () => {
+
+    const callBackQuery = async () => {
         // Получение задач с OpenProject, которые при попадании в resolve попадут в состояния.
         if (updateTasks) {
             setLoading(true)
@@ -100,7 +101,9 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
         setUsers(users)
         contentCardKanbanChange(choosedUserId)
         setLoading(false)
-    })
+    }
+
+    const { req, loading, setLoading } = useFetch(callBackQuery)
 
     const cloneColumns = React.useCallback((columns: Column[]) => {
         return columns.map((column: Column) => ({
