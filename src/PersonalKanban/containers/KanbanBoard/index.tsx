@@ -90,14 +90,24 @@ const KanbanBoardContainer: React.FC<KanbanBoardContainerProps> = (props) => {
                 (item: any) =>
                     item.active && item._links.status.title !== 'Приостановлен'
             )
-            .map((item: any) => OpenProjectService.getAllTaskByProject(item.id))
+            .map((item: any) =>
+                OpenProjectService.getAllTaskByProject(item.id).then(
+                    (projectTasks: any) => {
+                        return {
+                            tasks: projectTasks._embedded.elements.filter(
+                                (val: any) => !val._links.children
+                            ),
+                            projectName: item.name,
+                        }
+                    }
+                )
+            )
 
         const projectsData = await Promise.all(projectPromises)
 
-        projectsData.forEach((projectTasks: any, i: number) => {
-            projectTasks?._embedded.elements.forEach((val: any) => {
-                if (val._links.children) return
-                allTasks.push({ ...val, nameProject: finalProjects[i].name })
+        projectsData.forEach((project: any) => {
+            project.tasks.forEach((task: any) => {
+                allTasks.push({ ...task, nameProject: project.projectName })
             })
         })
 
